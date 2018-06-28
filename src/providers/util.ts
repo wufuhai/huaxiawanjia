@@ -13,7 +13,7 @@ export class UtilProvider {
 
   }
 
-  loading(content?: string): any {
+  loading(content?: string) {
     let loading = this.loadingCtrl.create({
       content: content
     });
@@ -21,7 +21,7 @@ export class UtilProvider {
     return loading;
   }
 
-  openAccount(account: any, gotoUrl: any) {
+  openAccount(account: any, gotoUrl: string) {
 
     const url = 'http://weixin.wanjiajinfu.com/mobile/financia.html';
 
@@ -79,22 +79,38 @@ export class UtilProvider {
       `;
 
     this.loginData = null;
-    let iab = this.inAppBrowser.create(url, '_blank', 'location=false');
+
+    let loading = this.loading('加载中...');
+    loading.present();
+
+    let iab = this.inAppBrowser.create(url, '_blank', 'location=false,hidden=yes');
 
     try {
       iab.on('loadstop').subscribe(() => {
-
         if (this.loginData)
           return;
 
-        this.loginData = json;
+        if (loading) {
+          loading.dismiss();
+          loading = null;
+        }
 
-        console.log('script executing');
+        this.loginData = json;
+        iab.show();
         iab.executeScript({ code: code });
+      }, () => {
+        if (loading) {
+          loading.dismiss();
+          loading = null;
+        }
       });
     }
     catch (err) {
       console.log(err);
+      if (loading) {
+        loading.dismiss();
+        loading = null;
+      }
     }
 
   }

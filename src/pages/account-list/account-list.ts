@@ -126,9 +126,9 @@ export class AccountListPage {
       fab.close();
   }
 
-  private harvest(account: any) {
-    this.api.harvest(account);
-  }
+  // private harvest(account: any) {
+  //   this.api.harvest(account);
+  // }
 
   async harvestAll() {
     this.data.accounts.forEach(async (val) => {

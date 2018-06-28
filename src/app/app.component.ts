@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { PageInterface } from '../interfaces/page';
 import { DataProvider } from '../providers/data';
 import { AppSettings } from '../providers/app-settings';
+import { AppCenterAnalytics } from '@ionic-native/app-center-analytics';
 
 @Component({
   templateUrl: 'app.html'
@@ -30,7 +31,7 @@ export class MyApp {
     data: DataProvider,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    //private appCenterAnalytics: AppCenterAnalytics,
+    private appCenterAnalytics: AppCenterAnalytics,
     //private codePush: CodePush,
     private settings: AppSettings) {
 
@@ -74,7 +75,7 @@ export class MyApp {
       this.splashScreen.hide();
       this.statusBar.styleDefault();
 
-      // this.appCenterAnalytics.setEnabled(true).then(() => { console.log('App cernter analytics enabled') }).catch();
+     this.appCenterAnalytics.setEnabled(true).then(() => { console.log('App cernter analytics enabled') }).catch();
 
       // this.checkCodePush(); //Use the plugin always after platform.ready()
     });

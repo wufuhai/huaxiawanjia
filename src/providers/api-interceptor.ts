@@ -35,12 +35,9 @@ export class ApiInterceptor implements HttpInterceptor {
 
         return next.handle(request).do((event) => {
             if (event instanceof HttpResponse) {
-                // console.log(event.body);
-
-                if (event.body && event.body.result) {
-                    // if (event.body.result != '000000')
-                    this.toastCtrl.create({ message: event.body.resultdesc, duration: 3000 }).present();
-                }
+                // if (event.body && event.body.result) {
+                //     this.toastCtrl.create({ message: event.body.resultdesc, duration: 3000 }).present();
+                // }
             }
         }, err => {
 

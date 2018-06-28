@@ -9,7 +9,7 @@ import { WebApi } from "../providers/webapi";
 import { ComponentsModule } from "../components/components.module";
 import { UtilProvider } from "../providers/util";
 import { AppSettings } from "../providers/app-settings";
-//import { AppCenterAnalytics } from '@ionic-native/app-center-analytics';
+import { AppCenterAnalytics } from '@ionic-native/app-center-analytics';
 import { IonicStorageModule } from "../../node_modules/@ionic/storage";
 //import { CodePush } from '@ionic-native/code-push';
 
@@ -20,7 +20,7 @@ export const PROVIDERS = [
     WebApi,
     UtilProvider,
     InAppBrowser,
-    //AppCenterAnalytics,
+    AppCenterAnalytics,
     //CodePush,
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }
 ]
