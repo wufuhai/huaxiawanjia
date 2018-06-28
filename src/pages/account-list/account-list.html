@@ -18,7 +18,7 @@
         <ion-item-sliding>
           <ion-item *ngIf="user.god">
             <ion-avatar item-start (click)="openAccount(user)">
-              <img src="{{user.god.picture?user.god.picture:'assets/img/avatar.png'}}">
+              <img src="{{user.god.picture?user.god.picture:'assets/imgs/avatar.png'}}">
             </ion-avatar>
             <h3 (click)="openAccount(user)">{{user.god.aliases}}</h3>
             <button ion-button *ngIf="!user.signStatus" small (click)="checkin(user)">签到</button>
@@ -104,7 +104,7 @@
       <hr>
       <ion-row no-padding>
         <ion-col *ngIf="user.fruit" col-12 text-center no-padding>
-          <button no-padding ion-button clear small color="primary" icon-end (click)="harvest(user)">
+          <button no-padding ion-button clear small color="primary" icon-end (click)="openFruit(user)">
             <ion-badge [color]="user.fruit.level == 3 ? 'danger' : (user.fruit.level == 2 ? 'secondary' : 'primary')" *ngIf="user.fruit"
               item-start> {{user.fruit.name}}</ion-badge>
             <p>{{user.fruit.countdown}}</p>

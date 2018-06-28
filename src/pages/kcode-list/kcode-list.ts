@@ -81,7 +81,7 @@ export class KCodeListPage {
 
   openAccount(account: any) {
     
-    this.util.openAccount(account);
+    this.util.openAccount(account, 'kCodeGift.html');
 
   }
 

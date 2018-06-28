@@ -21,7 +21,7 @@ export class UtilProvider {
     return loading;
   }
 
-  openAccount(account: any) {
+  openAccount(account: any, gotoUrl: any) {
 
     const url = 'http://weixin.wanjiajinfu.com/mobile/financia.html';
 
@@ -68,7 +68,7 @@ export class UtilProvider {
 
       try{
         loginCookie(JSON.parse('${json}'));
-        location.replace("myAccount.html");
+        location.replace('${gotoUrl}');
       }
       catch(err){
         alert(err);

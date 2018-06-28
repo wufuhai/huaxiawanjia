@@ -126,7 +126,7 @@ export class AccountListPage {
       fab.close();
   }
 
-  harvest(account: any) {
+  private harvest(account: any) {
     this.api.harvest(account);
   }
 
@@ -134,6 +134,12 @@ export class AccountListPage {
     this.data.accounts.forEach(async (val) => {
       await this.api.harvest(val);
     });
+  }
+
+  openFruit(account){
+    this.selectedGodId = account.god.id;
+
+    this.util.openAccount(account, 'fruitOfWealth.html');
   }
 
   login(account) {
@@ -144,7 +150,7 @@ export class AccountListPage {
 
     this.selectedGodId = account.god.id;
 
-    this.util.openAccount(account);
+    this.util.openAccount(account, 'myAccount.html');
 
   }
 
