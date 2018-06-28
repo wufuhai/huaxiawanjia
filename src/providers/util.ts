@@ -23,7 +23,7 @@ export class UtilProvider {
 
   openAccount(account: any, gotoUrl: string) {
 
-    const url = 'http://weixin.wanjiajinfu.com/mobile/financia.html';
+    const url = 'https://weixin.wanjiajinfu.com/mobile/financia.html';
 
     const json = JSON.stringify({
       tokenId: account.tokenId, // 用户认证令牌
