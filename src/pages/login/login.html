@@ -1,0 +1,39 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+		<ion-title>账户登录</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<form #loginForm="ngForm" novalidate>
+		<ion-list no-lines>
+			<ion-item>
+				<ion-label stacked color="primary">注册手机</ion-label>
+				<ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off"
+					required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+				请输入手机号码
+			</p>
+
+			<ion-item>
+				<ion-label stacked color="primary">密码</ion-label>
+				<ion-input [(ngModel)]="login.password" name="password" type="password" #password="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+				请输入密码
+			</p>
+		</ion-list>
+
+		<div padding>
+			<button ion-button (click)="onLogin(loginForm)" type="submit" block>登录</button>
+		</div>
+	</form>
+
+</ion-content>

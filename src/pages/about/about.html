@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>关于</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <!-- <div class="about-header">
+    <img src="assets/img/ionic-logo-white.svg" alt="ionic logo">
+  </div> -->
+  <div padding class="about-info">
+    <h3>华夏万家金服多账号管理APP</h3>
+    <p>
+      该APP版权归作者Kelvin Wu所有，仅供学习研究使用，任何人未经授权不得用于商业用途。如需联系作者请电邮至137685687@qq.com. 如果你觉得该APP对你有用，请打赏作者。谢谢！
+    </p>
+
+    <ion-buttons>
+      <!-- <button ion-button block primary (click)="performManualUpdate()">检查更新</button> -->
+      <button ion-button block (click)="goToDonate()">打赏</button>
+    </ion-buttons>
+
+  </div>
+
+
+</ion-content>

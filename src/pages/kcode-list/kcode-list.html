@@ -1,0 +1,113 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>K码</ion-title>
+    <!-- <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+      <ion-segment-button value="0">
+        已激活
+      </ion-segment-button>
+      <ion-segment-button value="1">
+        激活资格
+      </ion-segment-button>
+    </ion-segment> -->
+
+    <!-- <ion-buttons end>
+      <button ion-button icon-only (click)="presentFilter()">
+        <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
+      </button>
+    </ion-buttons> -->
+  </ion-navbar>
+
+  <!-- <ion-toolbar no-border-top>
+    <ion-searchbar color="primary" [(ngModel)]="queryText" (ionInput)="updateSchedule()" placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar> -->
+</ion-header>
+
+<ion-content>
+
+  <ion-list #kcodeList [hidden]="segment != 0">
+
+    <ion-item-group *ngFor="let group of data.kcodeGroups" [hidden]="group.hide">
+
+      <ion-item (click)="openAccount(group.account)">
+        <ion-avatar item-start>
+          <img src="{{group.account.god.picture?group.account.god.picture:'assets/img/avatar.png'}}">
+        </ion-avatar>
+        <h3>{{group.account.god.aliases}}</h3>
+
+        <p>共{{group.items.length}}个 下次兑换：{{group.restDays}}天后</p>
+
+        <ion-icon item-end name="ios-arrow-forward"></ion-icon>
+      </ion-item>
+
+
+      <ion-item-sliding *ngFor="let item of group.items" #slidingItem [attr.track]="item.tracks[0] | lowercase" [hidden]="item.hide">
+
+        <button ion-item>
+          <h3>{{item.deviceName}}</h3>
+          <p>
+            <!-- {{item.activateTime}} &mdash; -->
+            K码：{{item.kcode}}
+          </p>
+          <p>
+            <!-- {{item.activateTime}} &mdash; -->
+            激活时间：{{item.activateTime}}
+          </p>
+          <p>
+            已加速：{{item.speed}}/{{item.allowSpeed}}
+          </p>
+          <p>
+            未兑换金额：{{item.unExchangeAmount}}/{{item.kcodeAmount}}
+          </p>
+          <p>
+            剩余天数：{{item.restDays}}
+          </p>
+        </button>
+
+      </ion-item-sliding>
+
+    </ion-item-group>
+
+  </ion-list>
+
+  <!-- <ion-list #kcodeList [hidden]="segment != 1">
+
+    <ion-item-group *ngFor="let acc of accounts" [hidden]="acc.hide">
+
+      <ion-item-divider sticky>
+        <ion-label>
+          {{acc.aliases}}
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item *ngFor="let item of acc.devices" [hidden]="item.hide">
+
+        <button ion-item>
+          <h3>型号：{{item.kcodeType}}({{item.kcodeTypeName}})</h3>
+          <p>
+            可激活：{{item.activeRight}}
+          </p>
+        </button>
+
+      </ion-item>
+
+    </ion-item-group>
+
+  </ion-list> -->
+
+  <ion-fab bottom right #fab>
+    <button ion-fab>
+      <ion-icon name="share"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab color="primary" (click)="refreshData(fab)">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
+
+</ion-content>

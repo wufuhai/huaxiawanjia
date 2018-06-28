@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      打赏
+    </ion-title>
+  </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="payment">
+      <ion-segment-button value="0">
+        微信
+      </ion-segment-button>
+      <ion-segment-button value="1">
+        支付宝
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+
+
+  <div [ngSwitch]="payment">
+    <div *ngSwitchCase="0">
+      <img src="assets/img/wechat.png" />
+    </div>
+
+    <div *ngSwitchCase="1">
+      <img src="assets/img/alipay.jpg" />
+    </div>
+  </div>
+
+</ion-content>

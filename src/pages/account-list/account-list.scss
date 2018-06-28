@@ -1,0 +1,22 @@
+page-account-list {
+    .figures {
+        text-align: center;
+        .label {
+          color: #444;
+          font-size: 1.5rem;
+        }
+        .value {
+          font-size: 1.3rem;
+          color: #c5c5c5;
+        }
+
+        .border-left{
+          border-left: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        .border-top{
+          border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+      }
+
+      
+}
