@@ -35,9 +35,9 @@ export class ApiInterceptor implements HttpInterceptor {
 
         return next.handle(request).do((event) => {
             if (event instanceof HttpResponse) {
-                // if (event.body && event.body.result) {
-                //     this.toastCtrl.create({ message: event.body.resultdesc, duration: 3000 }).present();
-                // }
+                if (event.body && event.body.result && event.body.resultdesc != '接口调用成功') {
+                    this.toastCtrl.create({ message: event.body.resultdesc, duration: 3000 }).present();
+                }
             }
         }, err => {
 
