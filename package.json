@@ -44,7 +44,7 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "3.1.10",
+    "@ionic/app-scripts": "^3.1.11",
     "typescript": "~2.6.2"
   },
   "description": "华夏万家金服多账户管理工具",

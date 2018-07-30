@@ -146,6 +146,11 @@ export class AccountListPage {
     this.navCtrl.push('LoginPage', { user: { phone: account.god.phone, password: account.password } });
   }
 
+  withdraw(account) {
+    // this.api.getCode(account.god.phone);
+    this.navCtrl.push('WithdrawPage', { godId: account.god.id, tokenId: account.tokenId });
+  }
+
   openAccount(account: any) {
 
     this.selectedGodId = account.god.id;

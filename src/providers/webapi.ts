@@ -7,6 +7,8 @@ import { DataProvider } from './data';
 import { Md5 } from 'ts-md5';
 import { UtilProvider } from './util';
 
+// declare var returnCitySN;
+
 @Injectable()
 export class WebApi {
 
@@ -119,7 +121,7 @@ export class WebApi {
         item.tracks = ['navigation'];
 
         if (data.unExchangeAmount && data.kcodeExchangePlanList) {
-           
+
             data.kcodeExchangePlanList.forEach(plan => {
 
                 if (item.restDays == null && plan.actualExchangeDate == '') {
@@ -294,6 +296,44 @@ export class WebApi {
                 this.data.saveAccounts();
             }
         }).toPromise();
+    }
+
+    getCode(phone) {
+        return this.post(this.post_uc_url, {
+            "service_name": "activeCode.phone",
+            "phone": phone,
+            "logicType": "3",
+            "type": "1"
+        }
+        // , (json: any) => {
+        //     if (json.result == "000000") {
+        //         this.util.toast('获取成功，短信验证码正下发至您的手机，请耐心等待！').present();
+        //     }
+        // }
+    );
+    }
+
+    withdraw(godId, tokenId, amount, phone, code) {
+        this.post(this.post_url, {
+            "service_name": "mbm_outcome_req",
+            "godId": godId,
+            "tokenId": tokenId,
+            "amount": amount,
+            // "bankcardName": bankcardName,
+            // "bankCardNumber": bankCardNumber,
+            // "bankCardSubbranch": bankCardSubbranch,
+            "outcomeVarifycode": code,
+            "phone": phone,
+            //"fraudTokenId": fraudTokenId,
+            //"ip": returnCitySN["cip"]
+        },
+
+            (json) => {
+                var result = json.result;
+                if (result == "000000") {
+                    this.util.toast(json.resultdesc).present();
+                }
+            });
     }
 
     private post(url, data, callback?: any) {

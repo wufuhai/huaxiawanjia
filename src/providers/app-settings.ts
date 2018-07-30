@@ -20,6 +20,6 @@ export class AppSettings {
   }
 
   useProxy(){
-    this.set('api_url', 'http://192.168.2.8:8484/http://weixin.wanjiajinfu.com')
+    this.set('api_url', 'http://192.168.2.49:8484/http://weixin.wanjiajinfu.com')
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController, ToastController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Injectable()
@@ -9,8 +9,17 @@ export class UtilProvider {
   loginData: any;
 
   constructor(public http: HttpClient, public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
     public inAppBrowser: InAppBrowser) {
 
+  }
+
+  toast(message: any) {
+    let toast = this.toastCtrl.create({
+      message: message, 
+      duration: 3000
+    });
+    return toast;
   }
 
   loading(content?: string) {

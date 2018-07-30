@@ -1,174 +1,152 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
+    <ion-navbar>
+        <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>账户</ion-title>
-  </ion-navbar>
+        <ion-title>账户</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content class="outer-content">
 
-  <ion-list *ngIf="data.accounts.length > 0">
+    <ion-list *ngIf="data.accounts.length > 0">
 
-    <ion-card *ngFor="let user of data.accounts">
+        <ion-card *ngFor="let user of data.accounts">
 
-      <ion-list>
+            <ion-list>
 
-        <ion-item-sliding>
-          <ion-item *ngIf="user.god">
-            <ion-avatar item-start (click)="openAccount(user)">
-              <img src="{{user.god.picture?user.god.picture:'assets/imgs/avatar.png'}}">
-            </ion-avatar>
-            <h3 (click)="openAccount(user)">{{user.god.aliases}}</h3>
-            <button ion-button *ngIf="!user.signStatus" small (click)="checkin(user)">签到</button>
-            <button ion-button *ngIf="user.signStatus" class="follow-button" small color="purple">已签到
+                <ion-item-sliding>
+                    <ion-item *ngIf="user.god">
+                        <ion-avatar item-start (click)="openAccount(user)">
+                            <img src="{{user.god.picture?user.god.picture:'assets/imgs/avatar.png'}}">
+                        </ion-avatar>
+                        <h3 (click)="openAccount(user)">{{user.god.aliases}}</h3>
+                        <button ion-button *ngIf="!user.signStatus" small (click)="checkin(user)">签到</button>
+                        <button ion-button *ngIf="user.signStatus" class="follow-button" small color="purple">已签到
               <ion-icon name="checkmark"></ion-icon>
             </button>
-            <ion-note (click)="openAccount(user)" item-end>{{user.status}}</ion-note>
-            <!-- <button ion-button clear item-end (click)="openAccount(user)">跳转</button> -->
+                        <ion-note (click)="openAccount(user)" item-end>{{user.status}}</ion-note>
+                        <!-- <button ion-button clear item-end (click)="openAccount(user)">跳转</button> -->
 
-            <ion-icon item-end name="ios-arrow-forward" color="isActive(user)" (click)="openAccount(user)"></ion-icon>
-          </ion-item>
+                        <ion-icon item-end name="ios-arrow-forward" color="isActive(user)" (click)="openAccount(user)"></ion-icon>
+                    </ion-item>
 
-          <ion-item-options side="right">
-            <button ion-button color="danger" (click)="removeAccount(user)">
+                    <ion-item-options side="right">
+                        <button ion-button color="danger" (click)="removeAccount(user)">
               <ion-icon name="remove"></ion-icon>
               移除
             </button>
-          </ion-item-options>
-        </ion-item-sliding>
+                    </ion-item-options>
+                </ion-item-sliding>
 
-        <hr>
+                <hr>
 
-        <ion-row no-padding class="figures">
-          <ion-col col-6 no-padding>
-            <ion-row>
-              <ion-col col-6 class="label">资产</ion-col>
-              <ion-col col-6 class="value">
-                {{user.userAmount}}
-              </ion-col>
-            </ion-row>
-            <ion-row class="border-top">
-              <ion-col col-6 class="label">余额</ion-col>
-              <ion-col col-6 class="value">
-                {{user.userAvailableAmount}}
-              </ion-col>
-            </ion-row>
-          </ion-col>
-          <ion-col col-6 no-padding class="border-left">
-            <ion-row>
-              <ion-col col-6 class="label">礼包</ion-col>
-              <ion-col col-6 class="value">{{user.rewardAmount}}</ion-col>
-            </ion-row>
-            <ion-row class="border-top">
-              <ion-col col-6 class="label">加速券</ion-col>
-              <ion-col col-6 class="value">{{user.speedCoupons ? user.speedCoupons.length:0}}张</ion-col>
-            </ion-row>
-          </ion-col>
-        </ion-row>
+                <ion-row no-padding class="figures">
+                    <ion-col col-6 no-padding>
+                        <ion-row>
+                            <ion-col col-6 class="label">资产</ion-col>
+                            <ion-col col-6 class="value">
+                                {{user.userAmount}}
+                            </ion-col>
+                        </ion-row>
 
-        <!-- <ion-row no-padding>
-          <ion-col col-6 no-padding>
-            <ion-item>
-              <span>资产</span>
-              <ion-note item-end>
-                {{user.userAmount}}
-              </ion-note>
+                        <ion-row class="border-top">
+                            <ion-col col-6 class="label">余额</ion-col>
+                            <ion-col col-6 class="value">
+                                {{user.userAvailableAmount}}
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-row class="border-top">
+
+                            <ion-col *ngIf="user.fruit" col-12>
+                                <button ion-button clear small color="primary" (click)="openFruit(user)">
+                  <ion-badge [color]="user.fruit.level == 3 ? 'danger' : (user.fruit.level == 2 ? 'secondary' : 'primary')" *ngIf="user.fruit"
+                    item-start> {{user.fruit.name}}</ion-badge>
+                  <p>{{user.fruit.countdown}}</p>
+                </button>
+                            </ion-col>
+
+                        </ion-row>
+
+                    </ion-col>
+                    <ion-col col-6 no-padding class="border-left">
+                        <ion-row>
+                            <ion-col col-6 class="label">礼包</ion-col>
+                            <ion-col col-6 class="value">{{user.rewardAmount}}</ion-col>
+                        </ion-row>
+                        <ion-row class="border-top">
+                            <ion-col col-6 class="label">加速券</ion-col>
+                            <ion-col col-6 class="value">{{user.speedCoupons ? user.speedCoupons.length:0}}张</ion-col>
+                        </ion-row>
+
+                        <ion-row class="border-top">
+                        </ion-row>
+
+                    </ion-col>
+                </ion-row>
+
+            </ion-list>
+
+            <hr>
+            <ion-item border>
+
+                <button ion-button clear small color="primary" (click)="withdraw(user)">提现</button>
+                <button ion-button clear small color="danger" item-end (click)="login(user)">重新登录</button>
+
             </ion-item>
-            <ion-item>
-              余额
-              <ion-note item-end>
-                {{user.userAvailableAmount}}
-              </ion-note>
-            </ion-item>
-          </ion-col>
-          <ion-col col-6 no-padding>
-            <ion-item small>
-              礼包
-              <ion-note item-end>
-                {{user.rewardAmount}}
-              </ion-note>
-            </ion-item>
-            <ion-item>
-              加速券
-              <ion-note item-end>
-                {{user.speedCoupons ? user.speedCoupons.length:0}}张
-              </ion-note>
-            </ion-item>
-          </ion-col>
-        </ion-row> -->
 
-      </ion-list>
+        </ion-card>
 
-      <hr>
-      <ion-row no-padding>
-        <ion-col *ngIf="user.fruit" col-12 text-center no-padding>
-          <button no-padding ion-button clear small color="primary" icon-end (click)="openFruit(user)">
-            <ion-badge [color]="user.fruit.level == 3 ? 'danger' : (user.fruit.level == 2 ? 'secondary' : 'primary')" *ngIf="user.fruit"
-              item-start> {{user.fruit.name}}</ion-badge>
-            <p>{{user.fruit.countdown}}</p>
-          </button>
-        </ion-col>
-        <ion-col col-12 text-center text-lg-right no-padding>
-          <button no-padding ion-button clear small color="danger" icon-start (click)="login(user)">
-            <ion-icon name='signin'></ion-icon>
-            重新登录
-          </button>
-        </ion-col>
-      </ion-row>
+    </ion-list>
 
-    </ion-card>
-
-  </ion-list>
-
-  <ion-fab bottom right #fab>
-    <button ion-fab>
+    <ion-fab bottom right #fab>
+        <button ion-fab>
       <ion-icon name="share"></ion-icon>
     </button>
-    <ion-fab-list side="top">
-      <!-- <button ion-fab color="vimeo" (click)="goToLogin(fab)">
+        <ion-fab-list side="top">
+            <!-- <button ion-fab color="vimeo" (click)="goToLogin(fab)">
         <ion-icon name="logo-vimeo"></ion-icon>
       </button>
       <button ion-fab color="google" (click)="goToLogin(fab)">
         <ion-icon name="logo-googleplus"></ion-icon>
       </button> -->
-      <button ion-fab color="twitter" (click)="goToLogin(fab)">
+            <button ion-fab color="twitter" (click)="goToLogin(fab)">
         <ion-icon name="add"></ion-icon>
       </button>
-      <button ion-fab color="primary" (click)="refreshData(fab)">
+            <button ion-fab color="primary" (click)="refreshData(fab)">
         <ion-icon name="refresh"></ion-icon>
       </button>
-    </ion-fab-list>
-  </ion-fab>
+        </ion-fab-list>
+    </ion-fab>
 
 </ion-content>
 
 
 <ion-footer no-padding>
-  <div no-padding>
+    <div no-padding>
 
-    <ion-row no-padding *ngIf="data.accounts.length > 0">
-      <ion-col col-6>
-        <button ion-button block color="danger" (click)="checkinAll()">
+        <ion-row no-padding *ngIf="data.accounts.length > 0">
+            <ion-col col-6>
+                <button ion-button block color="danger" (click)="checkinAll()">
           一键签到
         </button>
-      </ion-col>
-      <ion-col col-6>
-        <button ion-button block color="secondary" (click)="harvestAll()">
+            </ion-col>
+            <ion-col col-6>
+                <button ion-button block color="secondary" (click)="harvestAll()">
           一键种树
         </button>
-      </ion-col>
-    </ion-row>
+            </ion-col>
+        </ion-row>
 
-    <ion-row no-padding *ngIf="data.accounts.length == 0">
-      <ion-col col-12>
-        <button ion-button block color="primary" (click)="goToLogin(null)">
+        <ion-row no-padding *ngIf="data.accounts.length == 0">
+            <ion-col col-12>
+                <button ion-button block color="primary" (click)="goToLogin(null)">
           添加账户
         </button>
-      </ion-col>
-    </ion-row>
+            </ion-col>
+        </ion-row>
 
-  </div>
+    </div>
 
 </ion-footer>

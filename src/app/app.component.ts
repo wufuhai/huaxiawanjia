@@ -24,6 +24,7 @@ export class MyApp {
     { title: '关于', name: 'AboutPage', component: 'AboutPage', icon: 'information-circle' }
   ];
 
+  private isDevice: boolean;
   rootPage: any;
 
   constructor(
@@ -40,6 +41,8 @@ export class MyApp {
 
     if (this.platform.is('core') || this.platform.is('mobileweb')) {
       this.settings.useProxy();
+    } else {
+      this.isDevice = true;
     }
 
     // load the data
@@ -75,7 +78,8 @@ export class MyApp {
       this.splashScreen.hide();
       this.statusBar.styleDefault();
 
-     this.appCenterAnalytics.setEnabled(true).then(() => { console.log('App cernter analytics enabled') }).catch();
+      if (this.isDevice)
+        this.appCenterAnalytics.setEnabled(true).then(() => { console.log('App cernter analytics enabled') }).catch();
 
       // this.checkCodePush(); //Use the plugin always after platform.ready()
     });
