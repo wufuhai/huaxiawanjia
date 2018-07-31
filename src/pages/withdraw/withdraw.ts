@@ -1,11 +1,12 @@
-//import { DataProvider } from './../../providers/data';
+import { UtilProvider } from './../../providers/util';
+import { DataProvider } from './../../providers/data';
 import { WebApi } from './../../providers/webapi';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage({
   name: 'WithdrawPage',
-  segment: 'withdraw/:godId/:tokenId'
+  segment: 'withdraw'
 })
 @Component({
   selector: 'page-withdraw',
@@ -13,34 +14,78 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class WithdrawPage {
 
-  phone: any = '17817887760';
+  withdrawLogItems: any[] = [];
+
+  phone: any;
   smsCode;
-  amount: any;
+  amount: any = '60.00';
   countdown = 0;
   getCodeText: any = '获取短信验证码';
-  account: any;
   godId: any;
   tokenId: any;
+  balance: '0.00';
+  accounts: any[];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    //private data: DataProvider,
+    private util: UtilProvider,
+    private data: DataProvider,
     private api: WebApi) {
 
-    this.godId = navParams.get('godId');
-    this.tokenId = navParams.get('tokenId');
-    //this.account = this.data.getAccount(this.godId);
+    //this.godId = navParams.get('godId');
+    //this.tokenId = navParams.get('tokenId');
+  }
+
+  async ionViewWillEnter() {
+    await this.data.load();
+
+    this.accounts = this.data.cookies;
+
+    if (this.accounts && this.accounts.length > 0) {
+      let account = this.accounts[0];
+      this.godId = account.god.id;
+      this.tokenId = account.tokenId;
+      this.phone = account.god.phone;
+      this.refreshData();
+    }
+    // this.refreshData();
+  }
+
+  async refreshData() {
+
+    this.api.getRemain(this.godId, this.tokenId).subscribe((json: any) => {
+      this.balance = this.util.fMc(json.withdrwalAmount);
+    });
+
+    this.api.getWithdrawLog(this.godId, this.tokenId).subscribe((json: any) => {
+      this.withdrawLogItems = json.object;
+    });
+  }
+
+  selectAccount(account: any) {
+    this.godId = account.god.id;
+    this.tokenId = account.tokenId;
+    this.countdown = 0;
+
+    this.refreshData();
+  }
+
+  selectPhone(account: any) {
+    this.phone = account.god.phone;
+    this.countdown = 0;
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad WithdrawPage');
   }
 
   getCode() {
+    let loading = this.util.loading('');
+    loading.present();
     this.api.getCode(this.phone).subscribe(() => {
       this.countdown = 60;
+      loading.dismiss();
       this.doCountdown();
-    });
+    }, () => { loading.dismiss(); });
   }
 
   doCountdown() {
@@ -59,10 +104,11 @@ export class WithdrawPage {
   }
 
   withdraw() {
-    this.api.withdraw(this.godId, this.tokenId, this.amount, this.phone, this.smsCode);
-  }
-
-  invalid() {
-    return !this.amount || !this.smsCode;
+    let loading = this.util.loading('');
+    loading.present();
+    this.api.withdraw(this.godId, this.tokenId, this.amount, this.phone, this.smsCode).subscribe((json: any) => {
+      this.refreshData();
+      loading.dismiss();
+    }, () => { loading.dismiss(); });
   }
 }

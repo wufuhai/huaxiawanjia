@@ -16,6 +16,7 @@ export class MyApp {
   appPages: PageInterface[] = [
     { title: '账户', name: 'AccountListPage', component: 'AccountListPage', tabComponent: 'AccountListPage', index: 0, icon: 'contacts' },
     { title: 'K码', name: 'KCodeListPage', component: 'KCodeListPage', tabComponent: 'KCodeListPage', index: 1, icon: 'calendar' },
+    { title: '提现', name: 'WithdrawPage', component: 'WithdrawPage', tabComponent: 'WithdrawPage', index: 2, icon: 'card' },
   ];
 
   otherPages: PageInterface[] = [

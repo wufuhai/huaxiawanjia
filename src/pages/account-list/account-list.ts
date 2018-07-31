@@ -53,8 +53,7 @@ export class AccountListPage {
 
   async ionViewWillEnter() {
     await this.data.load();
-    // if (this.data.accounts.length == 0 && this.data.cookies.length > 0)
-      this.refreshData(null);
+    this.refreshData(null);
   }
 
   async refreshData(fab: FabContainer) {

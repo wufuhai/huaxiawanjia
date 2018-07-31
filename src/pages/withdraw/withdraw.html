@@ -1,43 +1,68 @@
 <ion-header>
-
     <ion-navbar>
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
         <ion-title>提现</ion-title>
     </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
-
     <ion-list>
 
         <ion-item>
-            <ion-input [(ngModel)]="phone" type="text" placeholder="手机号"></ion-input>
+            <ion-label>提现账号</ion-label>
+            <ion-select [(ngModel)]="godId" interface="popover">
+                <ion-option value="{{item.god.id}}" *ngFor="let item of accounts" (ionSelect)="selectAccount(item)">{{item.god.fullName}}({{item.god.phone}})</ion-option>
+            </ion-select>
         </ion-item>
 
-
         <ion-item>
-            <ion-input [(ngModel)]="amount" type="text" autofocus="autofocus" placeholder="提现金额"></ion-input>
+            <ion-label>发送验证码到</ion-label>
+            <ion-select [(ngModel)]="phone" interface="popover">
+                <ion-option value="{{item.god.phone}}" *ngFor="let item of accounts" (ionSelect)="selectPhone(item)">{{item.god.phone}}</ion-option>
+            </ion-select>
         </ion-item>
 
-        <!-- <ion-item>
-            <ion-label>可提余额：0.00元</ion-label>
-        </ion-item> -->
-
         <ion-item>
-            <ion-item no-padding>
-                <ion-input [(ngModel)]="smsCode" maxlength="6" placeholder="请输入验证码"></ion-input>
-            </ion-item>
+
+            <ion-input [(ngModel)]="smsCode" maxlength="6" placeholder="请输入验证码"></ion-input>
+
 
             <button color="light" ion-button item-end [disabled]="countdown > 0" (click)="getCode()">{{getCodeText}}</button>
 
         </ion-item>
 
+        <ion-item>
+            <ion-label>提现金额</ion-label>
+            <ion-input [(ngModel)]="amount" type="text" autofocus="autofocus"></ion-input>
+            <ion-note item-end>余额{{balance}}</ion-note>
+        </ion-item>
+
     </ion-list>
 
     <div padding>
-        <button ion-button block full color="danger" (click)="withdraw()" [disabled]="invalid()">立即提现</button>
+        <button ion-button block full color="danger" (click)="withdraw()" [disabled]="!amount || !smsCode">立即提现</button>
     </div>
+
+    <ion-item>提现记录</ion-item>
+
+    <ion-list>
+
+        <ion-item-group *ngFor="let item of withdrawLogItems">
+            <ion-item-divider color="light">{{item.oprTime}}</ion-item-divider>
+            <ion-item>提现金额
+                <span item-end>{{item.amount | currency:'¥'}}元</span>
+            </ion-item>
+            <ion-item>手续费
+                <span item-end>{{item.fee | currency:'¥'}}元</span>
+            </ion-item>
+            <ion-item>提现状态
+                <span item-end>{{item.result == 1 ? '提现成功' : (item.result == 2 ? '提现失败' : '提现审核中')}}</span>
+            </ion-item>
+        </ion-item-group>
+
+    </ion-list>
 
 </ion-content>

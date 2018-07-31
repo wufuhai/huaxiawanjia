@@ -305,16 +305,16 @@ export class WebApi {
             "logicType": "3",
             "type": "1"
         }
-        // , (json: any) => {
-        //     if (json.result == "000000") {
-        //         this.util.toast('获取成功，短信验证码正下发至您的手机，请耐心等待！').present();
-        //     }
-        // }
-    );
+            // , (json: any) => {
+            //     if (json.result == "000000") {
+            //         this.util.toast('获取成功，短信验证码正下发至您的手机，请耐心等待！').present();
+            //     }
+            // }
+        );
     }
 
     withdraw(godId, tokenId, amount, phone, code) {
-        this.post(this.post_url, {
+        return this.post(this.post_url, {
             "service_name": "mbm_outcome_req",
             "godId": godId,
             "tokenId": tokenId,
@@ -334,6 +334,25 @@ export class WebApi {
                     this.util.toast(json.resultdesc).present();
                 }
             });
+    }
+
+    getRemain(godId, tokenId) {
+        return this.post(this.post_url, {
+            "service_name": "mbm_mbmremain_req",
+            "godId": godId,
+            "tokenId": tokenId
+        }
+        );
+    }
+
+    getWithdrawLog(godId, tokenId) {
+        return this.post(this.post_url, {
+            "service_name": "mbm_outcomelist_req",
+            "godId": godId,
+            "tokenId": tokenId,
+            "pageIndex": 1,
+            "pageSize": 100
+        });
     }
 
     private post(url, data, callback?: any) {

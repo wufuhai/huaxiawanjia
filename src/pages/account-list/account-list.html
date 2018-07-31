@@ -80,7 +80,11 @@
                             <ion-col col-6 class="value">{{user.speedCoupons ? user.speedCoupons.length:0}}张</ion-col>
                         </ion-row>
 
-                        <ion-row class="border-top">
+                        <ion-row class="border-top" text-align-center>
+                            <ion-col col-12>
+
+                                <button ion-button small color="danger" (click)="login(user)">重新登录</button>
+                            </ion-col>
                         </ion-row>
 
                     </ion-col>
@@ -89,12 +93,12 @@
             </ion-list>
 
             <hr>
-            <ion-item border>
+            <!-- <ion-item border>
 
                 <button ion-button clear small color="primary" (click)="withdraw(user)">提现</button>
                 <button ion-button clear small color="danger" item-end (click)="login(user)">重新登录</button>
 
-            </ion-item>
+            </ion-item> -->
 
         </ion-card>
 
