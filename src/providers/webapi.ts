@@ -345,13 +345,13 @@ export class WebApi {
         );
     }
 
-    getWithdrawLog(godId, tokenId) {
+    getWithdrawLog(godId, tokenId, pageIndex, pageSize) {
         return this.post(this.post_url, {
             "service_name": "mbm_outcomelist_req",
             "godId": godId,
             "tokenId": tokenId,
-            "pageIndex": 1,
-            "pageSize": 100
+            "pageIndex": pageIndex,
+            "pageSize": pageSize
         });
     }
 

@@ -14,6 +14,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class WithdrawPage {
 
+  title: any;
   withdrawLogItems: any[] = [];
 
   phone: any;
@@ -24,6 +25,8 @@ export class WithdrawPage {
   godId: any;
   tokenId: any;
   balance: '0.00';
+
+  selectedAccount: any;
   accounts: any[];
 
   constructor(public navCtrl: NavController,
@@ -43,22 +46,28 @@ export class WithdrawPage {
 
     if (this.accounts && this.accounts.length > 0) {
       let account = this.accounts[0];
-      this.godId = account.god.id;
-      this.tokenId = account.tokenId;
+      this.selectAccount(account);
       this.phone = account.god.phone;
-      this.refreshData();
     }
-    // this.refreshData();
   }
 
   async refreshData() {
+    this.withdrawLogItems = [];
+    this.balance = '0.00';
 
     this.api.getRemain(this.godId, this.tokenId).subscribe((json: any) => {
       this.balance = this.util.fMc(json.withdrwalAmount);
     });
 
-    this.api.getWithdrawLog(this.godId, this.tokenId).subscribe((json: any) => {
+    this.api.getWithdrawLog(this.godId, this.tokenId, 1, 1).subscribe((json: any) => {
       this.withdrawLogItems = json.object;
+      this.withdrawLogItems.forEach(element => {
+        let oprTime = new Date(element.oprTime);
+        let today = new Date();
+
+        if (oprTime.toDateString() === today.toDateString())
+          element.oprTime = '今天 ' + element.oprTime.split(' ')[1];
+      });
     });
   }
 
@@ -66,7 +75,8 @@ export class WithdrawPage {
     this.godId = account.god.id;
     this.tokenId = account.tokenId;
     this.countdown = 0;
-
+    this.title = `${account.god.fullName}(${account.god.phone})`;
+    this.selectedAccount = account;
     this.refreshData();
   }
 
@@ -110,5 +120,9 @@ export class WithdrawPage {
       this.refreshData();
       loading.dismiss();
     }, () => { loading.dismiss(); });
+  }
+
+  openWithdrawLog() {
+    this.util.openAccount(this.selectedAccount, 'detalLogPostalCash.html');
   }
 }
