@@ -1,3 +1,4 @@
+import { UtilProvider } from './../providers/util';
 import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -25,7 +26,6 @@ export class MyApp {
     { title: '关于', name: 'AboutPage', component: 'AboutPage', icon: 'information-circle' }
   ];
 
-  private isDevice: boolean;
   rootPage: any;
 
   constructor(
@@ -34,6 +34,7 @@ export class MyApp {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private appCenterAnalytics: AppCenterAnalytics,
+    private util: UtilProvider,
     //private codePush: CodePush,
     private settings: AppSettings) {
 
@@ -41,9 +42,10 @@ export class MyApp {
     this.platformReady();
 
     if (this.platform.is('core') || this.platform.is('mobileweb')) {
+      this.util.isDevice = false;
       this.settings.useProxy();
     } else {
-      this.isDevice = true;
+      this.util.isDevice = true;
     }
 
     // load the data
@@ -79,8 +81,15 @@ export class MyApp {
       this.splashScreen.hide();
       this.statusBar.styleDefault();
 
-      if (this.isDevice)
-        this.appCenterAnalytics.setEnabled(true).then(() => { console.log('App cernter analytics enabled') }).catch();
+      if (this.util.isDevice) {
+
+        try {
+          this.appCenterAnalytics.setEnabled(true).then(() => { console.log('App cernter analytics enabled') }).catch();
+        }
+        catch (error) {
+          console.log(error);
+        }
+      }
 
       // this.checkCodePush(); //Use the plugin always after platform.ready()
     });

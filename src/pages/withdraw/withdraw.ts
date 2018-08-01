@@ -2,7 +2,9 @@ import { UtilProvider } from './../../providers/util';
 import { DataProvider } from './../../providers/data';
 import { WebApi } from './../../providers/webapi';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+
+declare var SMSReceive: any;
 
 @IonicPage({
   name: 'WithdrawPage',
@@ -13,6 +15,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'withdraw.html',
 })
 export class WithdrawPage {
+
+  message: any;
 
   title: any;
   withdrawLogItems: any[] = [];
@@ -31,15 +35,19 @@ export class WithdrawPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    public platform: Platform,
     private util: UtilProvider,
     private data: DataProvider,
     private api: WebApi) {
 
-    //this.godId = navParams.get('godId');
-    //this.tokenId = navParams.get('tokenId');
   }
 
   async ionViewWillEnter() {
+
+    this.platform.ready().then(() => {
+      // this.startSmsReceiveWatch();
+    });
+
     await this.data.load();
 
     this.accounts = this.data.cookies;
@@ -51,6 +59,57 @@ export class WithdrawPage {
     }
   }
 
+  startSmsReceiveWatch() {
+
+
+    if (this.util.isDevice && SMSReceive) {
+
+      try {
+        SMSReceive.startWatch(() => {
+          //this.util.toast('smsreceive: watching started').present();
+
+          document.addEventListener('onSMSArrive', (e: any) => {
+            this.util.toast('onSMSArrive()').present();
+            var sms = e.data;
+            console.log('sms.address:' + sms.address);
+            console.log('sms.body:' + sms.body);
+            this.util.toast(sms.body).present();
+          });
+
+        }, () => {
+          // console.warn('smsreceive: failed to start watching');
+        });
+
+
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  stopSmsReceiveWatch() {
+    if (this.util.isDevice && SMSReceive) {
+
+      try {
+        SMSReceive.stopWatch(function () {
+          console.log('smsreceive: watching stopped');
+        }, function () {
+          console.warn('smsreceive: failed to stop watching');
+        });
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  ionViewDidLeave() {
+
+    // this.stopSmsReceiveWatch();
+
+  }
+
   async refreshData() {
     this.withdrawLogItems = [];
     this.balance = '0.00';
@@ -60,14 +119,28 @@ export class WithdrawPage {
     });
 
     this.api.getWithdrawLog(this.godId, this.tokenId, 1, 1).subscribe((json: any) => {
-      this.withdrawLogItems = json.object;
-      this.withdrawLogItems.forEach(element => {
-        let oprTime = new Date(element.oprTime);
+      var items = json.object;
+
+      if (items && items.length > 0) {
+        var item = items[0];
+
+        let oprTime = new Date(item.oprTime);
         let today = new Date();
 
-        if (oprTime.toDateString() === today.toDateString())
-          element.oprTime = '今天 ' + element.oprTime.split(' ')[1];
-      });
+        if (oprTime.toDateString() === today.toDateString()) {
+
+          this.withdrawLogItems.push({
+            action: '今日 ' + item.oprTime.split(' ')[1] + ' 提现' + this.util.fMc2(item.amount) + '元',
+            result: item.result,
+            status: item.result == 1 ? '成功' : (item.result == 2 ? '失败' : '审核中')
+          });
+        }
+      }
+
+      if (this.withdrawLogItems.length == 0) {
+        this.withdrawLogItems.push({ action: '今日未提现' });
+      }
+
     });
   }
 
@@ -92,11 +165,16 @@ export class WithdrawPage {
     let loading = this.util.loading('');
     loading.present();
     this.api.getCode(this.phone).subscribe(() => {
+
+      // this.watchSmsReceived();
+
       this.countdown = 60;
       loading.dismiss();
       this.doCountdown();
     }, () => { loading.dismiss(); });
   }
+
+
 
   doCountdown() {
 

@@ -5,6 +5,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Injectable()
 export class UtilProvider {
+  isDevice: boolean;
+
   iabRef: any;
   loginData: any;
 
@@ -16,7 +18,7 @@ export class UtilProvider {
 
   toast(message: any) {
     let toast = this.toastCtrl.create({
-      message: message, 
+      message: message,
       duration: 3000
     });
     return toast;
