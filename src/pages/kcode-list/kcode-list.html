@@ -14,23 +14,24 @@
     </ion-segment> -->
 
         <!-- <ion-buttons end>
-      <button ion-button icon-only (click)="presentFilter()">
+            <button ion-button icon-only (click)="presentFilter()">
         <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
       </button>
-    </ion-buttons> -->
+        </ion-buttons> -->
+
     </ion-navbar>
 
-    <!-- <ion-toolbar no-border-top>
-    <ion-searchbar color="primary" [(ngModel)]="queryText" (ionInput)="updateSchedule()" placeholder="Search">
-    </ion-searchbar>
-  </ion-toolbar> -->
+    <ion-toolbar no-border-top>
+        <ion-searchbar color="primary" [(ngModel)]="searchText" (ionInput)="searchItems($event)" placeholder="查找K码">
+        </ion-searchbar>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
     <ion-list #kcodeList>
 
-        <ion-item-group *ngFor="let group of data.kcodeGroups" [hidden]="group.hide">
+        <ion-item-group *ngFor="let group of getDisplayData()" [hidden]="group.hide">
 
             <ion-item (click)="openAccount(group.account)">
                 <ion-avatar item-start>

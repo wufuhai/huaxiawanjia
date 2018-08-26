@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 
 import { SharedModule } from '../../shared/shared.module';
-import { ScheduleFilterPage } from './schedule-filter';
+import { KCodeFilterPage } from './kcode-filter';
 
 @NgModule({
   declarations: [
-    ScheduleFilterPage,
+    //KCodeFilterPage,
   ],
   imports: [
-    IonicPageModule.forChild(ScheduleFilterPage),
+    IonicPageModule.forChild(KCodeFilterPage),
     SharedModule
   ],
   exports: [
-    ScheduleFilterPage
+    KCodeFilterPage
   ]
 })
 export class ScheduleFilterPageModule { }

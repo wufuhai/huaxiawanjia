@@ -6,7 +6,7 @@ import { KCodeListPage } from './kcode-list';
 
 @NgModule({
   declarations: [
-    KCodeListPage,
+    KCodeListPage
   ],
   imports: [
     IonicPageModule.forChild(KCodeListPage),

@@ -78,7 +78,7 @@ export class WebApi {
     async getKcodes(account) {
 
         // var self = this;
-        await this.post(this.post_url, { service_name: 'mbm_kcode_list_req', tokenId: account.tokenId, godId: account.god.id, status: 2, pageIndex: 1, pageSize: 200 },
+        await this.post(this.post_url, { service_name: 'mbm_kcode_list_req', tokenId: account.tokenId, godId: account.god.id, status: 2, pageIndex: 1, pageSize: 1000 },
             (data: any) => {
                 if (data.result === '000000') {
 

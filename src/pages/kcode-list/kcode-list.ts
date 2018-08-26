@@ -18,14 +18,10 @@ export class KCodeListPage {
   // the List and not a reference to the element
   @ViewChild('kcodeList', { read: List }) kcodeList: List;
 
-  // dayIndex = 0;
-  // queryText = '';
+  excludeDevices: any[] = [];
+  filteredGroups: any[] = [];
   segment = '0';
-  // excludeTracks: any = [];
-  // shownSessions: any = [];
-  // accounts: any[] = [];
-  // groups: KCodeGroup[] = [];
-  // shownGroups: KCodeGroup[] = [];
+  public searchText: any;
 
   constructor(
     public alertCtrl: AlertController,
@@ -46,6 +42,9 @@ export class KCodeListPage {
   }
 
   async refreshData(fab: FabContainer) {
+
+    this.searchText = '';
+    this.filteredGroups = [];
 
     if (fab)
       fab.close();
@@ -80,23 +79,69 @@ export class KCodeListPage {
   }
 
   openAccount(account: any) {
-    
+
     this.util.openAccount(account, 'kCodeGift.html');
 
   }
 
-  // presentFilter() {
-  //   let modal = this.modalCtrl.create('ScheduleFilterPage', this.excludeTracks);
-  //   modal.present();
+  searchItems(ev: any) {
 
-  //   modal.onWillDismiss((data: any[]) => {
-  //     if (data) {
-  //       this.excludeTracks = data;
-  //       this.refreshData(null);
-  //     }
-  //   });
+    this.filteredGroups = [];
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+    let matched = null;
 
-  // }
+    const allGroups = this.data.kcodeGroups;
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      val = val.toUpperCase();
+      allGroups.forEach((g: any) => {
+
+        if (matched)
+          return;
+
+        var group = this.filteredGroups.find(_ => _.account.god.id == g.account.god.id);
+
+        g.items.forEach(item => {
+
+          if (matched)
+            return;
+
+          if (item.kcode.toUpperCase().startsWith(val)) {
+
+            matched = item;
+            if (group == null) {
+              group = { account: g.account, hide: g.hide, restDays: g.restDays, items: [] };
+              this.filteredGroups.push(group);
+            }
+            group.items.push(item);
+          }
+        });
+      });
+    } else {
+      this.filteredGroups = allGroups;
+    }
+  }
+
+  public getDisplayData() {
+    if (this.searchText) {
+      return this.filteredGroups;
+    }
+    return this.data.kcodeGroups;
+  }
+
+  presentFilter() {
+    let modal = this.modalCtrl.create('KCodeFilterPage', this.excludeDevices);
+    modal.present();
+
+    // modal.onWillDismiss((data: any[]) => {
+    //   if (data) {
+    //     this.excludeTracks = data;
+    //     this.refreshData(null);
+    //   }
+    // });
+
+  }
 
   // async doRefresh(refresher: Refresher) {
 
